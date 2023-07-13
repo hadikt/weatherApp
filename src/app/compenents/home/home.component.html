@@ -1,0 +1,284 @@
+<!-- <div class="flex items-center justify-center min-h-screen bg-no-repeat bg-cover bg-black/60"style="background-image:url(../../../../../assets/mountain.jpeg )">
+<div class="flex  bg-black/20 border-white/20 backdrop-blur-sm shadow-xl max-w-[84rem]">
+  <div class="flex items-center justify-between w-full px-4 py-2 text-white rounded-lg">
+<p class="text-sm font-mediumsm:text-xl sm:font-bold">THE WEATHER <br>FORECASTING</p>
+<p class="text-sm text-center sm:text-xl ">09876</p>
+<a href="">hello</a>
+  </div>
+
+  <div class="relative flex flex-col w-full h-full">
+<div class="relative flex items-center w-full py-3 overflow-hidden font-medium text-white rounded-lg border border-white/30 bg-white/5 backdrop-saturate-50 focus-within:shadow-lg">
+  <div class="grid w-12 h-full place-items-center">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <input class="" type="search">
+</div>
+  </div>
+</div>
+</div> -->
+<!--                                                        Nav Bar                                     -->
+<div class="flex items-center  justify-center relative z-10 min-h-screen md:p-0 p-14 bg-no-repeat bg-cover h-max bg-black/60"style="background-image:url(../../../../../assets/mountain.jpeg )">
+<div class="md:w-9/12 w-full h-screen border border-white/40 md:rounded-2xl    backdrop-blur-sm md:h-4/5 bg-transparent absolute ">
+  <div class="flex items-center justify-between md:px-6 px-2 w-full  py-2 text-white/70 md:rounded-lg">
+    <p class="md:text-xl font-medium text-sm sm:font-bold">THE WEATHER <br>FORECASTING</p>
+    <p class="md:text-xl font-medium text-sm sm:font-bold ">{{DateToday | date:'hh:mm:ss a'}}</p>
+    <p class="md:text-xl font-medium text-sm sm:font-bold"></p>
+      </div>
+<!--                                                       Input Tag                                    -->
+
+<div class="container mx-auto px-1 pt-8">
+<div class="relative ">
+  <input
+  [(ngModel)]="input" (ngModelChange)="this.debounc.next($event)"
+  class="w-full relative text-white/70 p-3 z-40 border bg-transparent overflow-hidden placeholder:text-white backdrop-blur-md outline-none  border-white/20 rounded-xl" type="text" placeholder="Search place...">
+  <div  (click)="locator()" class="absolute z-[100] right-5 top-[10px]  text-white/40">
+   <i class="fa-solid fa-location-crosshairs text-3xl "></i>
+  </div>
+</div>
+<div class="absolute z-50">
+  <div *ngFor="let item of $place |async" class=" text-white bg-black/60 backdrop-blur-xl  z-30 font-serif px-5 ">
+    <p (click)="places(item)" class="hover:font-semibold" >{{item.name}}<span class="hover:px-2 p-1 text-white  rounded-md"></span></p>
+  </div>
+ </div>
+
+ <!--                                                 -->
+<div  *ngIf="$daily |async as daily" class="w-full h-full text-white/70 md:flex">
+ <div class="md:w-1/2 items-center flex md:gap-2 mt-2 md:mt-5 flex-col md::flex-row mx-aut  relative">
+    <div class="lg:w-full lg:h-full bg-black/20 backdrop-blur-sm pt-5 md:p-5 w-full flex flex-col gap-8 text-white md:gap-10 md:border border-transparent rounded-lg">
+          <div>
+            <div class="flex text-xl  md:text-2xl flex-col gap-5 ">
+              <h1 class="text-center text-lg md:text-2xl font-medium">CURRENT WHETHER</h1>
+              <div class="md:flex-row rounded-xl px-5 flex-col flex gap-4 md:gap-5 md:justify-between items-center">
+                <div class="flex">
+                  <div class="flex items-center flex-col">
+                    <p class="text-4xl text-white font-medium ">{{daily.name}}</p>
+                    <p class="text-lg">{{DateToday | date :'hh:mm a'}}</p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div class="flex items-center flex-col">
+                    <p class="text-4xl font-semibold">{{daily.main.temp}}℃</p>
+                    <p class="text-lg">{{daily.weather[0].description}}</p>
+                  </div>
+                </div>
+                <div>
+                <img class="-my-4 object-cover" src="../../../assets/{{daily.weather[0].icon}}.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="flex flex-col gap-2 md:gap-5 md:px-10 justify-center mx-auto">
+              <h1 class="text-center text-lg md:text-xl font-medium">AIR CONDITON</h1>
+              <div class="flex md:gap-5 p-3 rounded-xl justify-between sm:justify-evenly items-center">
+                  <div class="flex px-2 items-center flex-col rounded-md">
+                    <p>Feel</p>
+                    <p>{{daily.main.feels_like | number:'1.0-0'}}℃</p>
+                </div>
+                  <div class="flex items-center flex-col">
+                    <p>wind</p>
+                    <p>{{daily.wind.speed | number:'1.0-0' }}</p>
+                </div>
+                  <div class="flex items-center flex-col">
+                    <p>Clouds</p>
+                    <p>{{daily.clouds.all}}%</p>
+                  </div>
+                  <div class="flex items-center flex-col">
+                    <p>Humidity</p>
+                    <p>{{daily.main.humidity}}%</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div  class="flex  flex-col gap-5">
+              <h1  class="text-center text-lg md:text-xl font-medium">TODAY'S FORCAST</h1>
+              <div  class="md:flex-row text-sm sm:text-lg overflow-hidden flex gap-1 justify-evenly sm:px-5 p-1 items-center md:px-10">
+                <div *ngFor="let forcas of forcasttime"  class="flex overflow-hidden">
+                  <div  class="flex items-center flex-col">
+                    <p>{{forcas.dt_txt | date:'h:mm a'}}</p>
+                     <img class="w-16" src="../../../assets/{{forcas.weather[0].icon}}" alt="">
+                    <p>{{forcas.main.temp | number:'1.0-0' }}℃</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+</div>
+<!--                                         week -->
+<div class="lg:w-1/2 md:m-5 backdrop-blur-sm w-full  text-white  bg-black/20 md:p-5 rounded-md">
+  <h1 class="text-center text-lg md:text-2xl font-medium  my-5">WEEKLY FORCAST</h1>
+  <div class="space-y-1 md:space-y-3">
+    <div  *ngFor="let itemsss of nextdays"  class="flex justify-center items-center gap-1 md:gap-5  bg-black/20 md:justify-between rounded-xl p-2 md:p-3 md:px-5">
+      <div class="flex flex-col justify-center items-center w-full md:w-1/3 overflow-hidden">
+       <p class="font-medium">{{itemsss.dt_txt | date:'EEEE'}}</p>
+       <div class="flex gap-2 justify-center items-center">
+        <p>
+          <img class="w-8" src="../../../assets/{{itemsss.weather[0].icon}}.png">
+        </p>
+        <p>{{itemsss.weather[0].description}}</p>
+       </div>
+      </div>
+      <div class="flex flex-col gap-2 justify-center items-center w-full md:w-1/3 overflow-hidden">
+        <div class="flex gap-1">
+          <span>
+            <i class="fa-solid fa-temperature-half"></i>
+          </span>
+          <span>{{itemsss.main.temp}}℃</span>
+        </div>
+        <div class="flex gap-2">
+          <span>
+            <i class="fa-solid fa-cloud"></i>
+          </span>
+          <span>{{itemsss.clouds.all}}%</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 justify-center items-center w-full md:w-1/3 overflow-hidden">
+        <div class="flex gap-1">
+          <span>
+            <i class="fa-solid fa-wind"></i>
+          </span>
+          <span>{{itemsss.wind.speed}}M/s</span>
+        </div>
+        <div class="flex gap-2">
+          <span>
+            <i class="fa-solid fa-temperature-low"></i>
+          </span>
+          <span>{{itemsss.main.humidity}}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+    </div>
+  </div>
+
+      <!-- <div class="relative flex flex-col w-full h-full">
+        <div
+          class="relative flex items-center w-full py-3 overflow-hidden font-medium text-white border rounded-lg border-white/30 bg-white/10 backdrop-saturate-50 focus-within:shadow-lg">
+          <div class="grid w-12 h-full place-items-center">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <input class="relative w-full h-full pr-2 text-sm text-white bg-transparent outline-none placeholder:text-white"
+            type="search" placeholder="Search Cities.." [(ngModel)]="input"
+            (ngModelChange)="this.debounc.next($event)" />
+
+          <div class="grid w-12 h-full bg-transparent place-items-center">
+            <i class="text-xl fa-solid fa-location-dot"></i>
+          </div>
+        </div>
+
+        <div class="absolute z-40 w-full mt-14 bg-white ">
+          <div  class="flex flex-col w-full h-full bg-black rounded-lg">
+            <p
+              class="flex items-center w-full h-8 px-4 py-2 text-white rounded-lg hover:bg-slate-900 hover:font-semibold ">
+              </p>
+          </div>
+        </div>
+      </div> -->
+
+
+
+
+<!--
+      <div class="w-full h-5/6 md:flex bg-black/10 md:my-2 my-1">
+<div class="md:w-1/2 w-full text-white h-2/4  md:h-full bg-black/30">
+<div class=" flex flex-col  items-center">
+  <h1 class="text-lg md:text-xl">CURRENT WEATHER</h1>
+</div>
+  <div *ngFor="let item of locations.data " class=" md:py-10 py-6 p-2 md:p-5 flex justify-between">
+    <div>
+<p class="md:text-lg text-xs md:w-24 ">{{item.name}}</p>
+<p class="md:text-lg text-xs md:w-24 ">july56/354/4567</p>
+
+
+</div>
+<div>
+<p class="md:text-lg text-xs">MALAPPURAM</p>
+</div>
+<div>
+<p class="md:text-lg text-xs">MALAPPURAM</p>
+</div>
+
+
+</div>
+
+                                                                             AIR CONDITION -->
+<!-- <div class="flex flex-col items-center justify-center w-full gap-3 py-4 rounded-lg sm:p-2 ">
+  <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg " >AIR CONDITIONS</p>
+  <div class="flex items-center justify-between w-full px-2 space-x-1 sm:space-x-2">
+    <div class="grid w-1/4 p-1 border rounded-lg shadow-xl sm:leading-8 place-items-center border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <i class="pr-2 fa-solid fa-temperature-quarter"></i>
+        <p class="text-sm sm:text-base line-clamp-1">Real Feel</p>
+      </div>
+      <p class="font-medium sm:font-semibold">4.65</p>
+    </div>
+    <div class="grid w-1/4 p-1 border rounded-lg shadow-xl sm:leading-8 place-items-center border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <i class="pr-2 fa-solid fa-wind"></i>
+        <p class="text-sm sm:text-base line-clamp-1">Wind</p>
+      </div>
+      <p class="font-medium sm:font-semibold">2.34</p>
+    </div>
+    <div class="grid w-1/4 p-1 border rounded-lg shadow-xl sm:leading-8 place-items-center border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <i class="pr-2 fa-solid fa-cloud"></i>
+        <p class="text-sm sm:text-base line-clamp-1">clouds</p>
+      </div>
+      <p class="font-medium sm:font-semibold">9.65</p>
+    </div>
+    <div class="grid w-1/4 p-1 border rounded-lg shadow-xl sm:leading-8 place-items-center border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <i class="pr-2 fa-solid fa-droplet"></i>
+        <p class="text-sm sm:text-base line-clamp-1">Humidity</p>
+      </div>
+      <p class="font-medium sm:font-semibold text">5.43</p>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col items-center justify-center w-full gap-2 p-2 ">
+  <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg ">TODAY'S FORECAST</p>
+  <p class="text-sm sm:text-bases"> available forecasts</p>
+  <div class="flex items-center  justify-center w-full overflow-x-auto snap-x">
+    <div class="flex items-center  justify-center px-2 space-x-2 w-fit sm:w-full scroll-ml-6 snap-start ">
+      <div
+      class="grid  md:w-1/4 w-20 grid-flow-row px-3 py-2 leading-6 border rounded-lg shadow-xl border-white/30 place-content-center place-items-center bg-white/10 hover:bg-white/20 backdrop-blur-md">
+      <p class="text-sm text-center sm:text-base">345.65</p>
+      <img class="w-[1.8rem] sm:w-[2.5rem]" src="../../../assets/pexels-photo-4252907.webp" alt="">
+      <p class="font-medium sm:font-semibold">12°C</p>
+    </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<div class="md:w-1/2 py-36 md:py-0 w-full h-3/6 md:h-full bg-black/30 text-white">
+  <div class="flex flex-col items-center justify-center w-full gap-2 ">
+    <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg ">WEEKLY FORECAST</p>
+    <div class="flex flex-col items-center justify-center w-full px-2 " >
+      <div class="flex items-center justify-between w-full p-2 border rounded-lg bg-white/10 border-white/30 hover:bg-white/20 backdrop-blur-md">
+        <div class="grid w-1/4 leading-8 text-center place-items-center place-content-center">
+          <p class="font-semibold">Monday</p>
+          <span><i class="pr-2 text-xl fa-solid fa-cloud-showers-heavy"></i>98767</span>
+        </div>
+        <div class="grid w-1/4 leading-8 place-items-center place-content-center">
+          <span><i class="pr-2 fa-solid fa-temperature-quarter"></i>°C</span>
+          <span><i class="pr-2 fa-solid fa-cloud"></i>%</span>
+        </div>
+        <div class="grid w-1/4 leading-8 place-items-center place-content-center">
+          <span><i class="pr-2 fa-solid fa-wind"></i></span>
+          <span><i class="pr-2 fa-solid fa-droplet"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </div> -->
+
