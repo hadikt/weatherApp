@@ -30,8 +30,8 @@
 <div class="relative ">
   <input
   [(ngModel)]="input" (ngModelChange)="this.debounc.next($event)"
-  class="w-full relative text-white/70 p-3 z-40 border bg-transparent overflow-hidden placeholder:text-white backdrop-blur-md outline-none  border-white/20 rounded-xl" type="text" placeholder="Search place...">
-  <div  (click)="locator()" class="absolute z-[100] right-5 top-[10px]  text-white/40">
+  class="w-full relative text-white p-3 z-40 border bg-transparent overflow-hidden placeholder:text-white backdrop-blur-md outline-none  border-white/20 rounded-xl" type="text" placeholder="Search place...">
+  <div  (click)="locator()" class="absolute z-[100] right-5 top-[10px]  text-white">
    <i class="fa-solid fa-location-crosshairs text-3xl "></i>
   </div>
 </div>
